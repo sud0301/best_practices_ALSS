@@ -103,6 +103,7 @@ args.dataset = config['dataset']['name']
 args.num_classes = config['dataset']['num_classes']
 args.ignore_label = config['dataset']['ignore_label']
 args.restore_from = config['model']['restore_from']
+args.input_size = config['dataset']['input_size']
 
 # set seed
 np.random.seed(args.seed)

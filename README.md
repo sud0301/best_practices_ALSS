@@ -6,11 +6,11 @@ This part is the official repository for the paper - Best Practices in Active Le
 ### Datasets 
 - [x] PASCAL-VOC (Augmented train set: 10582 images)
 - [ ] Cityscapes
-- [ ] [A2D2](https://www.a2d2.audi/a2d2/en.html)
-    - [ ] Pool-0f
-    - [ ] Pool-5f
-    - [ ] Pool-11f
-    - [ ] Pool-21f
+- [x] [A2D2](https://www.a2d2.audi/a2d2/en.html)
+    - [x] Pool-0f
+    - [x] Pool-5f
+    - [x] Pool-11f
+    - [x] Pool-21f
     - [ ] Pool-Aug
 
 ### Query Strategies for Semantic Segmentation
@@ -28,6 +28,7 @@ Sample script
 python run.py --random-image --config ./configs/datasets/pascal_voc.yaml
 python run.py --entropy-image --config ./configs/datasets/pascal_voc.yaml
 python run.py --coreset --config ./configs/datasets/pascal_voc.yaml
+python run.py --random-image --config ./configs/datasets/a2d2.yaml
 ```
 
 

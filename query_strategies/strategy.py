@@ -95,7 +95,7 @@ class Strategy:
         if self.args.dataset == 'pascal_voc': 
             train_dataset = VOCDataSet(self.args.data_dir, self.args.train_data_list, crop_size=input_size, scale=True, mirror=True, mean=IMG_MEAN)
         elif self.args.dataset == 'a2d2':
-            train_dataset = A2D2(task='train', hflip=True, is_crop=True, pool_type='lab', lab_percent=self.args.lab_percent, pool=self.args.pool, split=self.args.split)
+            train_dataset = A2D2(self.args.data_dir, self.args.train_data_list, task='train', hflip=True, is_crop=True)
         
         train_sampler = data.sampler.SubsetRandomSampler(self.idxs_lb)
         trainloader = data.DataLoader(train_dataset, batch_size=self.args.train_batch_size, sampler=train_sampler, num_workers=4, pin_memory=True, drop_last=True)
@@ -122,7 +122,6 @@ class Strategy:
 
             images, labels, _, _, index = batch_lab
             images = images.cuda()
-
             output = self.clf(images, montecarlo=self.args.final_dropout)
             pred = interp(output)
             loss_ce = self.loss_calc(pred, labels, self.args.gpu)
@@ -161,8 +160,8 @@ class Strategy:
         self.net.eval()
         self.net.cuda()
    
-        if self.args.dataset == 'a2d2': 
-            val_dataset = A2D2(transform=False, task='val', hflip=False, is_crop=False) 
+        if self.args.dataset == 'a2d2':
+            val_dataset = A2D2(self.args.data_dir, self.args.train_data_list, task='val', hflip=False, is_crop=False) 
             valloader = data.DataLoader(val_dataset, batch_size=1, shuffle=False, pin_memory=True, drop_last=True)
             interp = nn.Upsample(size=(256, 512), mode='bilinear', align_corners=True)
         elif self.args.dataset == 'pascal_voc':
@@ -181,15 +180,18 @@ class Strategy:
                         break
                 image, label, size, name, _ = batch
                 size = size[0]
+                        
                 output  = self.net(image.cuda(), montecarlo=self.args.final_dropout)
                 output = interp(output).cpu().data[0].numpy()
 
                 output = output[:,:size[0],:size[1]]
                 gt = np.asarray(label[0].numpy()[:size[0],:size[1]], dtype=np.int32)
+                #gt = np.asarray(label[0].numpy(), dtype=np.int32)
 
                 output = output.transpose(1,2,0)
                 output = np.asarray(np.argmax(output, axis=2), dtype=np.int32)
                 
+                #print ('output shape: ', output.shape, ' gt shape: ', gt.shape)
                 #filename = os.path.join(self.args.save_dir, '{}.png'.format(name[0]))
                 #color_file = Image.fromarray(colorize(output).transpose(1, 2, 0), 'RGB')
                 #color_file.save(filename)
