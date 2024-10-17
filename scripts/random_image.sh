@@ -1,0 +1,13 @@
+python run.py   --random-image \
+                --num-epochs 100 \
+                --dataset a2d2 \
+                --pool 0 \
+                --seed 0 \
+                --lab-percent 100 \
+                --num-classes 19 \
+                --input-size 256,512 \
+                --exp-name a2d2_pool0_random_10_10_ep100_s0 \
+                --config ./configs/datasets/a2d2.yaml \
+                --initial-image-budget 0.1 \
+                --sampling-image-budget 0.1 \
+                --train-batch-size 8 >> ./reports/AL_pool0_random_ep100_5_5_s1.txt

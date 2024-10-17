@@ -1,0 +1,12 @@
+pool_dir: ./data/pools/cityscapes
+dataset:
+    name: cityscapes
+    num_classes: 19
+    dataset_dir: './datasets/cityscapes'
+    ignore_label: 255
+    input_size: 256,512
+model:
+    name: wrn38
+    restore_from: ./pretrained_models/wider_resnet38.pth.tar
+    
+    

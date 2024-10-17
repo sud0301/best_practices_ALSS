@@ -1,0 +1,10 @@
+pool_dir: ./data/pools/a2d2
+dataset:
+    name: a2d2
+    num_classes: 19
+    dataset_dir: './datasets/a2d2'
+    ignore_label: 255
+    input_size: 256,512
+model:
+    name: wrn38
+    restore_from: ./pretrained_models/wider_resnet38.pth.tar

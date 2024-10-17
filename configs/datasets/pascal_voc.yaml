@@ -1,0 +1,10 @@
+pool_dir: ./data/pools/pascal_voc
+dataset:
+    name: pascal_voc
+    num_classes: 21
+    dataset_dir: ./datasets/pascal_voc
+    ignore_label: 255
+    input_size: 321,321
+model:
+    name: wrn38
+    restore_from: ./pretrained_models/wider_resnet38.pth.tar
